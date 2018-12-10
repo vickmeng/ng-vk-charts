@@ -1,0 +1,12 @@
+{
+  "name": "ng-vk-charts",
+  "version": "0.0.1",
+  "dependencies": {
+    "@antv/data-set": "^0.10.1",
+    "@antv/g2": "^3.4.5"
+  },
+  "peerDependencies": {
+    "@angular/common": "^7.1.0",
+    "@angular/core": "^7.1.0"
+  }
+}

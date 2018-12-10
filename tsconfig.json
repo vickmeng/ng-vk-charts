@@ -17,6 +17,14 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "ng-vk-charts": [
+        "dist/ng-vk-charts"
+      ],
+      "ng-vk-charts/*": [
+        "dist/ng-vk-charts/*"
+      ]
+    }
   }
 }

@@ -133,6 +133,41 @@
           }
         }
       }
+    },
+    "ng-vk-charts": {
+      "root": "projects/ng-vk-charts",
+      "sourceRoot": "projects/ng-vk-charts/src",
+      "projectType": "library",
+      "prefix": "vk",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/ng-vk-charts/tsconfig.lib.json",
+            "project": "projects/ng-vk-charts/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ng-vk-charts/src/test.ts",
+            "tsConfig": "projects/ng-vk-charts/tsconfig.spec.json",
+            "karmaConfig": "projects/ng-vk-charts/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/ng-vk-charts/tsconfig.lib.json",
+              "projects/ng-vk-charts/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "ng-vk-charts-master"
