@@ -1,8 +1,24 @@
-<button (click)="change()">变变变</button>
-<div 
-    vkTrend 
-    [line]="{shape:'smooth'}"
-    [point]="{}"
-    [data]="chartData"
-    [renameMap]="{date:'年',value: '钱'}"
-></div>
+<button (click)="change()">变变变变变变变变变变变变变变变</button>
+
+<div style="padding: 20px">
+
+    <div 
+        vkTrend
+        [data] ="chartData"
+        [lines]="[{position:'date*money', shape:'smooth' , color:'country'}]"
+        [fold]="{
+            fields: ['CHN', 'USA','JAN'],
+            key: 'country',
+            value: 'money'
+        }"
+        [rename]="{date:'年',CHN: '中国',USA: '美国',JAN: '日本'}"
+    ></div>
+
+    <div 
+        vkTrend
+        [data] ="chartData"
+        [lines]="[{position:'date*CHN', shape:'smooth' , color :'hotPink'} , {position:'date*USA', shape:'line'} , {position:'date*JAN', shape:'line',color :'gray'}]"
+        [rename]="{date:'年',CHN: '中国',USA: '美国',JAN: '日本'}"
+    ></div>
+
+</div>

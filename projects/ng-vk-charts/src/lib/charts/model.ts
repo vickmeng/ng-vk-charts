@@ -1,18 +1,18 @@
 /**
  * item start
  */
-export interface TrendItem {
-    date: string | number;
-    value: string | number;
-}
+// export interface TrendItem {
+//     date: string | number;
+//     value: string | number;
+// }
 
-export interface PieItem { // 再说
-    item: string;
-    count: string | number;
-    percent?: number;
-}
+// export interface PieItem { // 再说
+//     item: string;
+//     count: string | number;
+//     percent?: number;
+// }
 
-export type Item = TrendItem | PieItem;
+// export type Item = TrendItem | PieItem;
 
 /**
  * item end
@@ -21,32 +21,44 @@ export type Item = TrendItem | PieItem;
 /**
  * shape start
  */
-export type LineShape = 'line'|'smooth'|'dot'|'dash'|'spline';
-export type PointShape = 'circle'|'square'|'bowtie'|'diamond'|
+export type LineShapeTypes = 'line'|'smooth'|'dot'|'dash'|'spline';
+
+export type PointShapeTypes = 'circle'|'square'|'bowtie'|'diamond'|
 'hexagon'|'triangle'|'triangle-down'|
 'hollowCircle'|'hollowSquare'|'hollowBowtie'|'hollowDiamond'|
 'hollowHexagon'|'hollowTriangle'|'hollowTriangle-down'|
 'cross'|'tick'|'plus'|'hyphen'|'line';
 
-export interface ShapeOption {
+export interface ShapeOptions {
+    position: string;
     opacity?: number;
+    color?: string;
 }
 
-export interface LineOption extends ShapeOption {
-    shape?: LineShape;
+export interface LineOptions extends ShapeOptions {
+    shape?: LineShapeTypes;
 }
 
-export interface PointOption extends ShapeOption {
-    shape?: PointShape;
+export interface PointOptions extends ShapeOptions {
+    shape?: PointShapeTypes;
 }
 /**
  * shape end
  */
 
 /**
- * transform
+ * transform start
  */
-export interface TransformOptions {
-    defaultNameMap: string;
+export interface RenameMap {
+    [key: string]: string;
 }
 
+
+export interface FoldOptions {
+    fields: string[];
+    key: string;
+    value: string;
+}
+/**
+ * transform end
+ */

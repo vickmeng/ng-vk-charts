@@ -8,59 +8,43 @@ import { Component } from '@angular/core';
 export class AppComponent {
 
   chartData = [{
-    country: 'CHN',
     date: '1991',
-    value: 30
+    CHN: 30,
+    USA: 5,
+    JAN: 10,
   }, {
-    country: 'CHN',
     date: '1992',
-    value: 41
+    CHN: 41,
+    USA: 4,
+    JAN: 30,
+
   }, {
-    country: 'CHN',
     date: '1993',
-    value: 3
-  }, {
-    country: 'USA',
-    date: '1994',
-    value: 5
-  }, {
-    country: 'USA',
-    date: '1995',
-    value: 11
-  }, {
-    country: 'USA',
-    date: '1996',
-    value: 11
+    CHN: 35,
+    USA: 3,
+    JAN: 7,
+
   }];
 
   constructor() {
   }
 
   change() {
-    this.chartData  = [{
-      country: 'CHN',
+    this.chartData = [{
       date: '1991',
-      value: 100 * Math.random()
+      CHN: 100 * Math.random(),
+      USA: 100 * Math.random(),
+      JAN: 100 * Math.random(),
     }, {
-      country: 'CHN',
       date: '1992',
-      value: 100 * Math.random()
+      CHN: 100 * Math.random(),
+      USA: 100 * Math.random(),
+      JAN: 100 * Math.random(),
     }, {
-      country: 'CHN',
       date: '1993',
-      value: 100 * Math.random()
-    }, {
-      country: 'USA',
-      date: '1994',
-      value: 100 * Math.random()
-    }, {
-      country: 'USA',
-      date: '1995',
-      value: 100 * Math.random()
-    }, {
-      country: 'USA',
-      date: '1996',
-      value: 100 * Math.random()
+      CHN: 100 * Math.random(),
+      USA: 100 * Math.random(),
+      JAN: 100 * Math.random(),
     }];
 
   }
