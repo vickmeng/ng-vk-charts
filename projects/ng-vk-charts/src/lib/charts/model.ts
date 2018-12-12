@@ -47,6 +47,6 @@ export interface PointOption extends ShapeOption {
  * transform
  */
 export interface TransformOptions {
-    defaultTrendNameMap: string;
+    defaultNameMap: string;
 }
 

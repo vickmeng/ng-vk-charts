@@ -14,7 +14,7 @@ export class TrendDirective extends BaseChart implements OnInit, AfterViewInit {
     constructor(public elementRef: ElementRef) {
         super(
             elementRef,
-            {defaultTrendNameMap}
+            {defaultNameMap: defaultTrendNameMap}
         );
     }
 

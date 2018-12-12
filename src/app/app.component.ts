@@ -6,22 +6,30 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  flag = true;
 
   chartData = [{
+    country: 'CHN',
     date: '1991',
     value: 30
   }, {
+    country: 'CHN',
     date: '1992',
     value: 41
   }, {
+    country: 'CHN',
     date: '1993',
     value: 3
   }, {
+    country: 'USA',
     date: '1994',
     value: 5
   }, {
+    country: 'USA',
     date: '1995',
+    value: 11
+  }, {
+    country: 'USA',
+    date: '1996',
     value: 11
   }];
 
@@ -29,36 +37,31 @@ export class AppComponent {
   }
 
   change() {
-    this.chartData = this.flag ?
-    [{
+    this.chartData  = [{
+      country: 'CHN',
       date: '1991',
-      value: 3
+      value: 100 * Math.random()
     }, {
+      country: 'CHN',
       date: '1992',
-      value: 43
+      value: 100 * Math.random()
     }, {
+      country: 'CHN',
       date: '1993',
-      value: 3
+      value: 100 * Math.random()
     }, {
+      country: 'USA',
       date: '1994',
-      value: 5
+      value: 100 * Math.random()
     }, {
+      country: 'USA',
       date: '1995',
-      value: 100
-    }] : [{
-      date: '2000',
-      value: 133
+      value: 100 * Math.random()
     }, {
-      date: '2001',
-      value: 41
-    }, {
-      date: '2002',
-      value: 3
-    }, {
-      date: '2003',
-      value: 55
+      country: 'USA',
+      date: '1996',
+      value: 100 * Math.random()
     }];
-    this.flag = !this.flag;
 
   }
 }
