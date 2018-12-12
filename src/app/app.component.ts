@@ -6,59 +6,46 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  flag = true;
 
   chartData = [{
     date: '1991',
-    value: 30
+    CHN: 30,
+    USA: 5,
+    JAN: 10,
   }, {
     date: '1992',
-    value: 41
+    CHN: 41,
+    USA: 4,
+    JAN: 30,
+
   }, {
     date: '1993',
-    value: 3
-  }, {
-    date: '1994',
-    value: 5
-  }, {
-    date: '1995',
-    value: 11
+    CHN: 35,
+    USA: 3,
+    JAN: 7,
+
   }];
 
   constructor() {
   }
 
   change() {
-    this.chartData = this.flag ?
-    [{
+    this.chartData = [{
       date: '1991',
-      value: 3
+      CHN: 100 * Math.random(),
+      USA: 100 * Math.random(),
+      JAN: 100 * Math.random(),
     }, {
       date: '1992',
-      value: 43
+      CHN: 100 * Math.random(),
+      USA: 100 * Math.random(),
+      JAN: 100 * Math.random(),
     }, {
       date: '1993',
-      value: 3
-    }, {
-      date: '1994',
-      value: 5
-    }, {
-      date: '1995',
-      value: 100
-    }] : [{
-      date: '2000',
-      value: 133
-    }, {
-      date: '2001',
-      value: 41
-    }, {
-      date: '2002',
-      value: 3
-    }, {
-      date: '2003',
-      value: 55
+      CHN: 100 * Math.random(),
+      USA: 100 * Math.random(),
+      JAN: 100 * Math.random(),
     }];
-    this.flag = !this.flag;
 
   }
 }
