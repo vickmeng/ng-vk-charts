@@ -1,6 +1,5 @@
 <button (click)="change()">变变变变变变变变变变变变变变变</button>
 
-<div style="padding: 20px">
 
     <div 
         vkTrend
@@ -11,14 +10,13 @@
             key: 'country',
             value: 'money'
         }"
-        [rename]="{date:'年',CHN: '中国',USA: '美国',JAN: '日本'}"
+        [rename]="{date:'年',CHN: '中国',USA: '美国'}"
     ></div>
+
 
     <div 
         vkTrend
         [data] ="chartData"
-        [lines]="[{position:'date*CHN', shape:'smooth' , color :'hotPink'} , {position:'date*USA', shape:'line'} , {position:'date*JAN', shape:'line',color :'gray'}]"
-        [rename]="{date:'年',CHN: '中国',USA: '美国',JAN: '日本'}"
+        [lines]="[{position:'date*CHN', shape:'smooth' , color :'hotPink'} , {position:'date*USA', shape:'line'}]"
+        [rename]="{date:'年',CHN: '中国',USA: '美国'}"
     ></div>
-
-</div>

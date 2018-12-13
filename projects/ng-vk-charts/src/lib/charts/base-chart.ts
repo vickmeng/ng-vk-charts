@@ -16,13 +16,13 @@ import { defaultDebounceTime } from './const';
  * ......
  */
 
-export class BaseChart  implements OnInit, AfterViewInit {
+export class BaseChart implements OnInit, AfterViewInit {
     chart;
     dv = new View();
     initData = [];
     forceFit = true;
-    dataSubject = new Subject();
-    data$ ;
+    private dataSubject = new Subject();
+    data$;
 
     @Input()defaultDebounceTime = defaultDebounceTime;
 
@@ -74,7 +74,7 @@ export class BaseChart  implements OnInit, AfterViewInit {
         return this.rename[filed] || filed;
     }
 
-    handleTransform = () => ( this.handleRename(), this.handleFold());
+    handleTransform = () => (this.handleRename(), this.handleFold());
 
 
     handleFold = () => {

@@ -1,32 +1,44 @@
-import { Component } from '@angular/core';
+import { Component,
+  AfterViewInit ,
+  // ViewChild,
+  // ViewChildren,
+  // ContentChild,
+} from '@angular/core';
+import { TrendDirective } from 'projects/ng-vk-charts/src/lib/charts/trend/trend.directive';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
-
+export class AppComponent implements AfterViewInit {
+  $myTrend: TrendDirective;
   chartData = [{
     date: '1991',
     CHN: 30,
     USA: 5,
-    JAN: 10,
   }, {
     date: '1992',
     CHN: 41,
     USA: 4,
-    JAN: 30,
 
   }, {
     date: '1993',
     CHN: 35,
     USA: 3,
-    JAN: 7,
-
   }];
 
+  // @ViewChild(TrendDirective)
+  // set appBacon(directive: TrendDirective) {
+  //   this.$myTrend = directive;
+  // }
+
   constructor() {
+  }
+
+  ngAfterViewInit() {
+    // this.$myTrend.data$.subscribe(console.log);
+
   }
 
   change() {
@@ -34,18 +46,14 @@ export class AppComponent {
       date: '1991',
       CHN: 100 * Math.random(),
       USA: 100 * Math.random(),
-      JAN: 100 * Math.random(),
     }, {
       date: '1992',
       CHN: 100 * Math.random(),
       USA: 100 * Math.random(),
-      JAN: 100 * Math.random(),
     }, {
       date: '1993',
       CHN: 100 * Math.random(),
       USA: 100 * Math.random(),
-      JAN: 100 * Math.random(),
     }];
-
   }
 }
