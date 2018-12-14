@@ -15,17 +15,22 @@ export class AppComponent implements AfterViewInit {
   $myTrend: TrendDirective;
   chartData = [{
     date: '1991',
-    CHN: 30,
-    USA: 5,
+    beijing_t: 30,
+    shanghai_t: 5,
+    beijing_h: 3,
+    shanghai_h: 5,
   }, {
     date: '1992',
-    CHN: 41,
-    USA: 4,
-
+    beijing_t: 10,
+    shanghai_t: 35,
+    beijing_h: 32,
+    shanghai_h: 15,
   }, {
     date: '1993',
-    CHN: 35,
-    USA: 3,
+    beijing_t: 23,
+    shanghai_t: 15,
+    beijing_h: 23,
+    shanghai_h: 15,
   }];
 
   // @ViewChild(TrendDirective)
@@ -37,23 +42,27 @@ export class AppComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    // this.$myTrend.data$.subscribe(console.log);
-
   }
 
   change() {
     this.chartData = [{
       date: '1991',
-      CHN: 100 * Math.random(),
-      USA: 100 * Math.random(),
+      beijing_t: 100 * Math.random(),
+      shanghai_t: 100 * Math.random(),
+      beijing_h: 100 * Math.random(),
+      shanghai_h: 100 * Math.random(),
     }, {
       date: '1992',
-      CHN: 100 * Math.random(),
-      USA: 100 * Math.random(),
+      beijing_t: 100 * Math.random(),
+      shanghai_t: 100 * Math.random(),
+      beijing_h: 100 * Math.random(),
+      shanghai_h: 100 * Math.random(),
     }, {
       date: '1993',
-      CHN: 100 * Math.random(),
-      USA: 100 * Math.random(),
+      beijing_t: 100 * Math.random(),
+      shanghai_t: 100 * Math.random(),
+      beijing_h: 100 * Math.random(),
+      shanghai_h: 100 * Math.random(),
     }];
   }
 }

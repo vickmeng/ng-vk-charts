@@ -1,22 +1,16 @@
-/**
- * item start
- */
-// export interface TrendItem {
-//     date: string | number;
-//     value: string | number;
-// }
+export interface X {
+    key: string;
+}
 
-// export interface PieItem { // 再说
-//     item: string;
-//     count: string | number;
-//     percent?: number;
-// }
+export type Shape = 'point' | 'line' | 'area';
 
-// export type Item = TrendItem | PieItem;
-
-/**
- * item end
- */
+export interface Y {
+    fields: string[];
+    colors: string[];
+    shapes: Shape[];
+    key?: string;
+    value?: string;
+}
 
 /**
  * shape start
@@ -28,6 +22,8 @@ export type PointShapeTypes = 'circle'|'square'|'bowtie'|'diamond'|
 'hollowCircle'|'hollowSquare'|'hollowBowtie'|'hollowDiamond'|
 'hollowHexagon'|'hollowTriangle'|'hollowTriangle-down'|
 'cross'|'tick'|'plus'|'hyphen'|'line';
+
+export type AllShapeTypes = LineShapeTypes | PointShapeTypes;
 
 export interface ShapeOptions {
     position: string;
@@ -52,7 +48,6 @@ export interface PointOptions extends ShapeOptions {
 export interface RenameMap {
     [key: string]: string;
 }
-
 
 export interface FoldOptions {
     fields: string[];
