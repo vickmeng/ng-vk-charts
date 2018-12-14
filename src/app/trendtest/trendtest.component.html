@@ -1,0 +1,22 @@
+<button (click)="change()">变变变变变变变变变变变变变变变</button>
+<div 
+    vkTrend
+    [data] ="chartData"
+    [X] = "{key:'date'}"
+    [Ys]= "[
+        {fields:['beijing_t','shanghai_t'],shapes:['line','point'],unit:'℃', lineShape: 'smooth'},
+        {fields:['beijing_h','shanghai_h'],shapes:['line'], lineShape: 'dash'}
+    ]"
+    [rename]="{date:'年',beijing_t: '北京温度',shanghai_t: '上海温度',beijing_h: '北京湿度',shanghai_h: '上海湿度'}"
+></div>
+
+
+<div 
+    vkTrend
+    [data] ="chartData"
+    [X] = "{key:'date'}"
+    [Ys]= "[
+        {fields:['beijing_t'],shapes:['line','point'],unit:'℃'}
+    ]"
+    [rename]="{date:'年',beijing_t: '北京温度'}"
+></div>

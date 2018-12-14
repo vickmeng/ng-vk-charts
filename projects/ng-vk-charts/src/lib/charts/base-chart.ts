@@ -57,11 +57,11 @@ export class BaseChart implements OnInit, AfterViewInit {
             forceFit: this.forceFit,
         });
         this.chart.source(this.dv);
-        this.handleDrawShapes();
+        this.handleDraw();
         this.chart.render();
     }
 
-    handleDrawShapes() {} // 子类覆盖
+    handleDraw() {} // 子类覆盖
 
     getPosition = (theX: X , theY: Y): string => {
         return `${this.getRenamed(theX.key)}*${this.getRenamed(theY.value)}`;

@@ -10,6 +10,8 @@ export interface Y {
     shapes: Shape[];
     key?: string;
     value?: string;
+    unit ?: string;
+    lineShape?: LineShapeTypes;
 }
 
 /**

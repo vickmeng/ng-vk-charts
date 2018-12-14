@@ -14,25 +14,41 @@ export class TrendDirective extends BaseChart {
             elementRef,
         );
     }
+
     handleLastTransform = () => {
-        this.Ys.forEach( (theY, index) => { // XXX jisua
+        this.Ys.forEach( (theY, index) => {
             theY.value = 'Yvalue' + index;
             theY.key = 'Ykey' + index;
             const { key, value} = theY;
             const fields = theY.fields.map(field => this.getRenamed(field));
-            if (fields.length > 1) {
-                this.dv.transform({// XXX 复杂度变高了
-                    type: 'fold',
-                    fields, key, value
-                });
-            }
+            // XXX 多次fold导致复杂度变高了，有印象可以创建多个view
+            this.dv.transform({
+                type: 'fold',
+                fields, key, value
+            });
         });
     }
 
-
-    handleDrawShapes = () => { // 覆盖父类
-        this.Ys.forEach(theY => this.handleDrawOneGroupShapes(this.X, theY));
+    handleDraw = () => { // 覆盖父类
+        this.Ys.forEach(
+                theY => (
+                    this.handleDrawOneGroupShapes(this.X, theY),
+                    this.handleDrawAxis(theY)
+                )
+            );
     }
+
+    handleDrawAxis = (theY: Y) => {
+        this.chart.axis(theY.value, {
+            label: {
+                formatter(val) {
+                    return val + (theY.unit || '');
+                }
+            }
+        });
+
+    }
+
 
     handleDrawOneGroupShapes = (theX: X, theY: Y) => {
         theY.shapes.forEach((shape: Shape ) => {
@@ -50,7 +66,10 @@ export class TrendDirective extends BaseChart {
     }
 
     handleDrawOneGroupLine = (theX: X, theY: Y) => {
-        this.chart.line().position(this.getPosition(theX, theY)).color(theY.key, theY.colors);
+        const lines = this.chart.line().position(this.getPosition(theX, theY)).color(theY.key, theY.colors);
+        if (theY.lineShape) {
+            lines.shape(theY.lineShape);
+        }
     }
 
     handleDrawOneGroupPoint = (theX: X, theY: Y) => {
