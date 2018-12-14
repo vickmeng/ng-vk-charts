@@ -5,6 +5,7 @@ import { View } from '@antv/data-set';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { defaultDebounceTime } from './const';
+import { X , Y } from './model';
 /**
  * 根类
  * 负责主要逻辑：
@@ -16,17 +17,17 @@ import { defaultDebounceTime } from './const';
  * ......
  */
 
-export class BaseChart  implements OnInit, AfterViewInit {
+export class BaseChart implements OnInit, AfterViewInit {
     chart;
     dv = new View();
     initData = [];
     forceFit = true;
-    dataSubject = new Subject();
-    data$ ;
+    private dataSubject = new Subject();
+    data$;
 
     @Input()defaultDebounceTime = defaultDebounceTime;
 
-    @Input() rename: RenameMap;
+    @Input() rename: RenameMap = {};
 
     @Input() set data(data: any[]) {
         this.dataSubject.next(data);
@@ -62,22 +63,17 @@ export class BaseChart  implements OnInit, AfterViewInit {
 
     handleDrawShapes() {} // 子类覆盖
 
-    getPosition = (position: string): string => {
-        if (this.rename) { // 需要rename的情况，一般都需要
-            const [x , y] = position.split('*');
-            return `${this.getRenamed(x)}*${this.getRenamed(y)}`;
-        }
-        return position; // 默认name
+    getPosition = (theX: X , theY: Y): string => {
+        return `${this.getRenamed(theX.key)}*${this.getRenamed(theY.value)}`;
     }
 
-    getRenamed = (filed): string => {
-        return this.rename[filed] || filed;
+    getRenamed = (field): string => {
+        return this.rename[field] || field;
     }
 
-    handleTransform = () => ( this.handleRename(), this.handleFold());
+    handleTransform = () => (this.handleRename(), this.handleLastTransform());
 
-
-    handleFold = () => {
+    handleLastTransform = () => { // XXX 子类覆盖 这块不太好，但我不知道怎么描述了
     }
 
     handleRename = () => {

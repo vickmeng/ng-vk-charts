@@ -1,54 +1,64 @@
-import { Directive, ElementRef , OnInit , Input, AfterViewInit} from '@angular/core';
-// import * as G2 from '@antv/g2';
+import { Directive, ElementRef, Input} from '@angular/core';
 import { BaseChart } from '../base-chart';
-import { LineOptions } from '../model';
-import { FoldOptions } from './../model';
+import { X, Y , Shape} from '../model';
 
 @Directive({
   selector: '[vkTrend]',
 })
-export class TrendDirective extends BaseChart implements OnInit, AfterViewInit {
-    @Input() lines: LineOptions[] ;
-    @Input() fold: FoldOptions;
+export class TrendDirective extends BaseChart {
+    @Input() X: X;
+    @Input() Ys: Y[];
 
     constructor(public elementRef: ElementRef) {
         super(
             elementRef,
         );
     }
-    handleFold = () => {
-        if (this.fold) {
-            const fold = Object.assign({}, this.fold);
-            fold.fields = fold.fields.map(field => this.getRenamed(field));
-            this.dv.transform({
-                type: 'fold',
-                ...fold
-            });
-        }
+    handleLastTransform = () => {
+        this.Ys.forEach( (theY, index) => { // XXX jisua
+            theY.value = 'Yvalue' + index;
+            theY.key = 'Ykey' + index;
+            const { key, value} = theY;
+            const fields = theY.fields.map(field => this.getRenamed(field));
+            if (fields.length > 1) {
+                this.dv.transform({// XXX 复杂度变高了
+                    type: 'fold',
+                    fields, key, value
+                });
+            }
+        });
     }
+
 
     handleDrawShapes = () => { // 覆盖父类
-        if (this.lines && this.lines.length) {
-            this.handleDrawLines(this.lines);
-        }
+        this.Ys.forEach(theY => this.handleDrawOneGroupShapes(this.X, theY));
     }
 
-    handleDrawLines = (lines: LineOptions[]) => {
-        lines.forEach(line => this.handleDrawOneLine(line));
+    handleDrawOneGroupShapes = (theX: X, theY: Y) => {
+        theY.shapes.forEach((shape: Shape ) => {
+            switch (shape) {
+                case 'line':
+                    return this.handleDrawOneGroupLine(theX, theY);
+                case 'point':
+                    return this.handleDrawOneGroupPoint(theX, theY);
+                case 'area':
+                    return this.handleDrawOneGroupArea(theX, theY);
+                default:
+                    break;
+            }
+        });
     }
 
-    handleDrawOneLine = (lineOptions: LineOptions) => {
-        const { position , shape , opacity , color } = lineOptions;
-        const line = this.chart.line().position(this.getPosition(position));
-        if (shape) {
-            line.shape(shape);
-        }
-        if (opacity) {
-            line.opacity(opacity);
-        }
-        if (color) {
-            line.color(color);
-        }
+    handleDrawOneGroupLine = (theX: X, theY: Y) => {
+        this.chart.line().position(this.getPosition(theX, theY)).color(theY.key, theY.colors);
+    }
+
+    handleDrawOneGroupPoint = (theX: X, theY: Y) => {
+        this.chart.point().position(this.getPosition(theX, theY)).color(theY.key, theY.colors);
+    }
+
+    handleDrawOneGroupArea = (theX: X, theY: Y) => {
+        this.chart.area().position(this.getPosition(theX, theY)).color(theY.key, theY.colors);
     }
 
 }
