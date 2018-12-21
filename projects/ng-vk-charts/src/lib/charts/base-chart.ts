@@ -18,17 +18,20 @@ import { X , Y } from './model';
  */
 
 export class BaseChart implements OnInit, AfterViewInit {
+     // chart主体
     chart;
     dv = new View();
-    initData = [];
-    forceFit = true;
-    private dataSubject = new Subject();
+    // O
     data$;
-
-    @Input()defaultDebounceTime = defaultDebounceTime;
-
-    @Input() rename: RenameMap = {};
-
+    // S
+    private dataSubject = new Subject();
+    // 是否自适应尺寸
+    @Input()forceFit = true;
+    // 回压控制的时间
+    @Input() debounceTime = defaultDebounceTime;
+    // 重命名映射
+    @Input() rename: RenameMap;
+    // 数据入口
     @Input() set data(data: any[]) {
         this.dataSubject.next(data);
     }
@@ -39,7 +42,7 @@ export class BaseChart implements OnInit, AfterViewInit {
         this.data$ = this.dataSubject
             .asObservable()
             .pipe(
-                debounceTime(this.defaultDebounceTime)
+                debounceTime(this.debounceTime)
             );
         this.data$.subscribe(
             this.handleLoadData
@@ -61,14 +64,14 @@ export class BaseChart implements OnInit, AfterViewInit {
         this.chart.render();
     }
 
-    handleDraw() {} // 子类覆盖
+    handleDraw() {} // 等待子类覆盖，绘制
 
     getPosition = (theX: X , theY: Y): string => {
         return `${this.getRenamed(theX.key)}*${this.getRenamed(theY.value)}`;
     }
 
     getRenamed = (field): string => {
-        return this.rename[field] || field;
+        return this.rename ? this.rename[field] || field : field;
     }
 
     handleTransform = () => (this.handleRename(), this.handleLastTransform());

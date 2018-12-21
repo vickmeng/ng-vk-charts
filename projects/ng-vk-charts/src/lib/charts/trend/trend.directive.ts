@@ -1,6 +1,7 @@
 import { Directive, ElementRef, Input} from '@angular/core';
 import { BaseChart } from '../base-chart';
-import { X, Y , Shape} from '../model';
+import { X, Y , Shape, ScaleConfig} from '../model';
+import { unique } from '../utils';
 
 @Directive({
   selector: '[vkTrend]',
@@ -15,13 +16,16 @@ export class TrendDirective extends BaseChart {
         );
     }
 
-    handleLastTransform = () => {
+    handleLastTransform = () => this.handleFold(); // 覆盖
+
+    // 数据分组
+    handleFold = () => {
         this.Ys.forEach( (theY, index) => {
             theY.value = 'Yvalue' + index;
             theY.key = 'Ykey' + index;
             const { key, value} = theY;
             const fields = theY.fields.map(field => this.getRenamed(field));
-            // XXX 多次fold导致复杂度变高了，有印象可以创建多个view
+            // XXX 多次fold导致复杂度变高了，貌似可以创建多个view
             this.dv.transform({
                 type: 'fold',
                 fields, key, value
@@ -29,29 +33,33 @@ export class TrendDirective extends BaseChart {
         });
     }
 
-    handleDraw = () => { // 覆盖父类
-        this.Ys.forEach(
-                theY => (
-                    this.handleDrawOneGroupShapes(this.X, theY),
-                    this.handleDrawAxis(theY)
-                )
-            );
+    handleDraw = () => (this.handleDrawX(this.X), this.handleDrawYs(this.Ys)); // 绘制覆盖父类
+
+
+    handleDrawX = (theX: X) => {
+        const scaleConfig: ScaleConfig = Object.assign(
+            {type: 'linear'}, // 默认连续时序
+            theX.scale
+        );
+
+        this.chart.scale(this.getRenamed(theX.key), scaleConfig);
     }
 
-    handleDrawAxis = (theY: Y) => {
-        this.chart.axis(theY.value, {
-            label: {
-                formatter(val) {
-                    return val + (theY.unit || '');
-                }
-            }
-        });
-
+    handleDrawYs = (theYs: Y[]) => {
+        theYs.forEach(theY => (
+            this.handleDrawOneGroupShapes(this.X, theY),
+            this.handleDrawAxis(theY)
+            )
+        );
     }
 
+
+
+    handleDrawAxis = (theY: Y) => this.chart.axis(theY.value, theY.axis); // theY.axis是undefined也没关系
 
     handleDrawOneGroupShapes = (theX: X, theY: Y) => {
-        theY.shapes.forEach((shape: Shape ) => {
+        const shapes = unique(theY.shapes);
+        shapes.forEach((shape: Shape ) => {
             switch (shape) {
                 case 'line':
                     return this.handleDrawOneGroupLine(theX, theY);
