@@ -1,16 +1,14 @@
 import { ChartAxisConfig,  } from '@antv/g2';
 
+export interface TrendChartData {
+    date: string;
+    [key: string]: number | string;
+}
 
-// export interface TrendAxis {
-//     line: any;
-//     label: TrendAxisLabel;
-// }
+export type ChartDataType = TrendChartData;
 
-// export interface TrendAxisLabel {
-//     formatter: ()
-// }
 
-export type ScaleType = 'identit'|'linear'|'cat'|'time'|'timeCat'|'log'|'pow';
+export type ScaleType = 'identity'|'linear'|'cat'|'time'|'timeCat'|'log'|'pow';
 
 export interface ScaleConfig {// G2没提供。。。。
     type?: ScaleType; // 指定数据类型，可声明的类型为：identity、linear、cat、time、timeCat、log、pow

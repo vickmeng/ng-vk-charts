@@ -1,5 +1,5 @@
 import { Input, ElementRef, OnInit, AfterViewInit} from '@angular/core';
-import { RenameMap} from './model';
+import { RenameMap, ChartDataType} from './model';
 import * as G2 from '@antv/g2';
 import { View } from '@antv/data-set';
 import { Subject } from 'rxjs';
@@ -32,7 +32,7 @@ export class BaseChart implements OnInit, AfterViewInit {
     // 重命名映射
     @Input() rename: RenameMap;
     // 数据入口
-    @Input() set data(data: any[]) {
+    @Input() set data(data: ChartDataType[]) {
         this.dataSubject.next(data);
     }
 
@@ -66,9 +66,7 @@ export class BaseChart implements OnInit, AfterViewInit {
 
     handleDraw() {} // 等待子类覆盖，绘制
 
-    getPosition = (theX: X , theY: Y): string => {
-        return `${this.getRenamed(theX.key)}*${this.getRenamed(theY.value)}`;
-    }
+    getPosition = (theX: X , theY: Y): string => `${this.getRenamed(theX.key)}*${this.getRenamed(theY.value)}`;
 
     getRenamed = (field): string => {
         return this.rename ? this.rename[field] || field : field;
@@ -76,8 +74,7 @@ export class BaseChart implements OnInit, AfterViewInit {
 
     handleTransform = () => (this.handleRename(), this.handleLastTransform());
 
-    handleLastTransform = () => { // XXX 子类覆盖 这块不太好，但我不知道怎么描述了
-    }
+    handleLastTransform = () => {}; // XXX 子类覆盖 这块不太好，但我不知道怎么描述了
 
     handleRename = () => {
         if (this.rename) {
