@@ -1,5 +1,5 @@
 import { Input, ElementRef, OnInit, AfterViewInit} from '@angular/core';
-import { RenameMap, ChartDataType} from './model';
+import { RenameMap, ChartDataType, ViewBinder } from './model';
 import * as G2 from '@antv/g2';
 import { View } from '@antv/data-set';
 import { Subject } from 'rxjs';
@@ -20,17 +20,21 @@ import { X , Y } from './model';
 export class BaseChart implements OnInit, AfterViewInit {
      // chart主体
     chart;
-    dv = new View();
-    // O
-    data$;
+    // dv = new View();
+    viewCount = 1; // 有多少个view
+    viewBinders: Array<ViewBinder | null>;
     // S
     private dataSubject = new Subject();
+    // O
+    data$;
     // 是否自适应尺寸
     @Input()forceFit = true;
+    // 刷新数据是否重绘，没有动画了 1. XXX弥补trendchart的Y轴bug，2. 自定义loading
+    @Input()repaint = false;
     // 回压控制的时间
     @Input() debounceTime = defaultDebounceTime;
     // 重命名映射
-    @Input() rename: RenameMap;
+    @Input() rename: RenameMap = {};
     // 数据入口
     @Input() set data(data: ChartDataType[]) {
         this.dataSubject.next(data);
@@ -50,40 +54,62 @@ export class BaseChart implements OnInit, AfterViewInit {
     }
 
     ngOnInit() {
-        this.handleTransform();
     }
 
     ngAfterViewInit() {
         const hostElement = this.elementRef.nativeElement;
         this.chart = new G2.Chart({
+            padding: 100,
             container: hostElement,
             forceFit: this.forceFit,
         });
-        this.chart.source(this.dv);
+        this.handleRefreshViewCount();
+        this.handleBindSource();
+        this.handleTransform();
         this.handleDraw();
         this.chart.render();
     }
 
+    handleRefreshViewCount = () => this.viewCount = 1; // 选择性覆盖
+
+    handleBindSource = () => {
+        this.viewBinders = new Array(this.viewCount).fill(null); // 牢记fill引用的坑
+        this.viewBinders = this.viewBinders.map(binder => {
+            const dv = new View();
+            const view = this.chart.view();
+            view.source(dv);
+            return {
+                dv, view
+            };
+        });
+    }
+
     handleDraw() {} // 等待子类覆盖，绘制
 
-    getPosition = (theX: X , theY: Y): string => `${this.getRenamed(theX.key)}*${this.getRenamed(theY.value)}`;
+    getPosition = (theX: X , theY: Y): string => `${this.getRenamedField(theX.key)}*${this.getRenamedField(theY.value)}`;
 
-    getRenamed = (field): string => {
+    getRenamedField = (field): string => {
         return this.rename ? this.rename[field] || field : field;
     }
 
-    handleTransform = () => (this.handleRename(), this.handleLastTransform());
+    handleTransform = () => this.viewBinders.forEach((binder, index) => {
+        this.handleRenameTransform(binder.dv, index);
+        return this.handleLastTransform(binder.dv, index);
+    })
 
-    handleLastTransform = () => {}; // XXX 子类覆盖 这块不太好，但我不知道怎么描述了
+    handleLastTransform: (dv, index) => void = (dv, index) => {}; // XXX 子类覆盖 这块不太好，但我不知道怎么描述了
 
-    handleRename = () => {
-        if (this.rename) {
-            this.dv.transform({
-                type: 'rename',
-                map: this.rename,
-            });
-        }
+    handleRenameTransform = (dv, index) => {
+        dv.transform({
+            type: 'rename',
+            map: this.rename,
+        });
     }
 
-    handleLoadData = data => this.dv.source(data);
+    handleLoadData = data => {
+        this.viewBinders.forEach(binder => binder.dv.source(data));
+        if (this.repaint) {
+            this.chart.repaint();
+        }
+    }
 }

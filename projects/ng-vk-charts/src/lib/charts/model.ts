@@ -1,4 +1,21 @@
 import { ChartAxisConfig,  } from '@antv/g2';
+import { View } from '@antv/data-set';
+
+
+/**
+ * viewbinder start
+ */
+export interface ViewBinder {
+    dv: any;
+    view: any;
+}
+/**
+ * viewbinder end
+*/
+
+/**
+ * chartDate start
+ */
 
 export interface TrendChartData {
     date: string;
@@ -6,7 +23,9 @@ export interface TrendChartData {
 }
 
 export type ChartDataType = TrendChartData;
-
+/**
+ * chartDate end
+ */
 
 export type ScaleType = 'identity'|'linear'|'cat'|'time'|'timeCat'|'log'|'pow';
 
@@ -25,7 +44,7 @@ export interface X {
     scale?: ScaleConfig; //
 }
 
-export type ShapeType = 'point' | 'line' | 'area';
+export type ShapeType = 'point' | 'line' | 'area' | 'lineStack' | 'areaStack';
 
 export interface Y {
     fields: string[];
