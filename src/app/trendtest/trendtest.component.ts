@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import {X, Y, ChartDataType} from 'projects/ng-vk-charts/src/lib/charts/model';
 
 @Component({
   selector: 'app-trendtest',
   templateUrl: './trendtest.component.html',
-  styleUrls: ['./trendtest.component.scss']
+  styleUrls: ['./trendtest.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TrendtestComponent implements OnInit {
   chartData: ChartDataType[] = [{

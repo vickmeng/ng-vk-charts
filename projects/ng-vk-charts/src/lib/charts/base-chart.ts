@@ -1,4 +1,4 @@
-import { Input, ElementRef, OnInit, AfterViewInit} from '@angular/core';
+import { Input, ElementRef, OnInit, AfterViewInit , OnChanges, SimpleChanges, } from '@angular/core';
 import { RenameMap, ChartDataType, ViewBinder } from './model';
 import * as G2 from '@antv/g2';
 import { View } from '@antv/data-set';
@@ -17,7 +17,7 @@ import { X , Y } from './model';
  * ......
  */
 
-export class BaseChart implements OnInit, AfterViewInit {
+export class BaseChart implements OnInit, AfterViewInit, OnChanges {
      // chart主体
     chart;
     // dv = new View();
@@ -36,9 +36,7 @@ export class BaseChart implements OnInit, AfterViewInit {
     // 重命名映射
     @Input() rename: RenameMap = {};
     // 数据入口
-    @Input() set data(data: ChartDataType[]) {
-        this.dataSubject.next(data);
-    }
+    @Input() data: ChartDataType[];
 
     constructor(
         public elementRef: ElementRef,
@@ -53,7 +51,10 @@ export class BaseChart implements OnInit, AfterViewInit {
         );
     }
 
-    ngOnInit() {
+    ngOnInit() {}
+
+    ngOnChanges (changes: SimpleChanges) {
+        this.dataSubject.next(changes.data.currentValue);
     }
 
     ngAfterViewInit() {
